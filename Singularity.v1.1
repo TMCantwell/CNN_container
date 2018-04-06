@@ -13,7 +13,7 @@ yum -y install build-essential curl git man vim autoconf libtool debootstrap squ
 yum -y install python36u
 yum -y install python36u-pip
 yum -y install python36u-devel
-yum -y install kernel-devel-3.10.0-693.21.1.el7.x86_64 kernel-headers-3.10.0-693.21.1.el7.x86_64
+yum -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)
 wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda-repo-rhel7-9-0-local-9.0.176-1.x86_64-rpm
 mv cuda-repo-rhel7-9-0-local-9.0.176-1.x86_64-rpm cuda-repo-rhel7-9-0-local-9.0.176-1.x86_64-rpm.rpm
 rpm -i cuda-repo-rhel7-9-0-local-9.0.176-1.x86_64-rpm.rpm
@@ -66,3 +66,9 @@ export LIBRARY_PATH=/usr/local/cuda/lib64/:$LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/extras/CUPTI/lib64
 alias start-tensorflow="source /tensorflow/bin/activate"
 
+
+%runscript
+echo "Starting Tensorflow virtual environment"
+source /tensorflow/bin/activate
+echo "Arguments received: $*"
+exec python "$@"
